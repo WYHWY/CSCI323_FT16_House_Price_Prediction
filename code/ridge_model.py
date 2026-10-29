@@ -7,8 +7,9 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 # 1. Load data
 print("Loading data...")
-train = pd.read_csv("train_encoded.csv")
-test = pd.read_csv("test_encoded.csv")
+# Note: Using relative path for GitHub repository structure
+train = pd.read_csv("../data/train_encoded.csv")
+test = pd.read_csv("../data/test_encoded.csv")
 
 # 2. Split features and target variable
 NON_FEATURES = ["row_id", "SalePrice", "fold"]
@@ -44,7 +45,12 @@ print(f"R² (Dollar):   {r2_dollar:.4f}")
 print(f"R² (Log):      {r2_log:.4f}")
 print("="*40)
 
-print("\n[Reference Check]:")
-print("Handoff README Ridge MAE: $16,563")
-print("Handoff README Ridge R²(log): 0.8537")
-print("If your numbers are close, the pipeline works perfectly!")
+# 8. Extract and display Feature Importance (for report analysis)
+print("\nTop 5 Most Important Features (Ridge):")
+# For Ridge, we use the absolute value of coefficients to represent importance
+importances = np.abs(model.named_steps['ridge'].coef_)
+indices = np.argsort(importances)[::-1]
+for i in range(5):
+    clean_name = FEATURES[indices[i]].split("__")[-1] # Strip prefix
+    importance_score = importances[indices[i]]
+    print(f"{i+1}. {clean_name}: {importance_score:.4f}")
