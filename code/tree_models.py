@@ -6,8 +6,9 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 # 1. Load data
 print("Loading data...")
-train = pd.read_csv("train_encoded.csv")
-test = pd.read_csv("test_encoded.csv")
+# Note: Using relative path for GitHub repository structure
+train = pd.read_csv("../data/train_encoded.csv")
+test = pd.read_csv("../data/test_encoded.csv")
 
 # 2. Split features and target variable
 NON_FEATURES = ["row_id", "SalePrice", "fold"]
@@ -62,5 +63,9 @@ print("="*50)
 print("\nTop 5 Most Important Features (Random Forest):")
 importances = rf_model.feature_importances_
 indices = np.argsort(importances)[::-1]
+
 for i in range(5):
-    print(f"{i+1}. {FEATURES[indices[i]]}: {importances[indices[i]]:.4f}")
+    # Strip prefixes like 'num__' or 'nom__' for cleaner report presentation
+    clean_name = FEATURES[indices[i]].split("__")[-1] 
+    importance_score = importances[indices[i]]
+    print(f"{i+1}. {clean_name}: {importance_score:.4f}")
