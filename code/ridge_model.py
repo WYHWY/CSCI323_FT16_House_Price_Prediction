@@ -49,8 +49,7 @@ print("="*40)
 
 # 8. Extract and display Feature Importance (for report analysis)
 print("\nTop 5 Most Important Features (Ridge):")
-# Note: Using absolute coefficients as an auxiliary proxy for feature importance.
-# This is a linear association, NOT a causal effect.
+# Note: Using the absolute value of standardized coefficients as a measure of feature importance.
 importances = np.abs(model.named_steps['ridge'].coef_)
 indices = np.argsort(importances)[::-1]
 for i in range(5):
