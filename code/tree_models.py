@@ -63,8 +63,8 @@ print("="*50)
 
 # 6. Extract and display Feature Importance (for report analysis)
 print("\nTop 5 Most Important Features (Random Forest):")
-# Note: Feature importance indicates how much a feature contributes to the model's predictions,
-# but it does NOT imply a direct causal relationship with house prices.
+# Note: Feature importances are computed based on the mean decrease in impurity (MDI).
+# They represent relative importance within the model, not causal relationships.
 importances = rf_model.feature_importances_
 indices = np.argsort(importances)[::-1]
 
