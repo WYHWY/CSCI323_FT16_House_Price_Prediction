@@ -1,14 +1,16 @@
 import pandas as pd
 import numpy as np
+from pathlib import Path
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 # 1. Load data
 print("Loading data...")
-# Note: Using relative path for GitHub repository structure
-train = pd.read_csv("../data/train_encoded.csv")
-test = pd.read_csv("../data/test_encoded.csv")
+# Dynamically resolve paths based on the script's location
+ROOT = Path(__file__).resolve().parent.parent
+train = pd.read_csv(ROOT / "data" / "train_encoded.csv")
+test = pd.read_csv(ROOT / "data" / "test_encoded.csv")
 
 # 2. Split features and target variable
 NON_FEATURES = ["row_id", "SalePrice", "fold"]
@@ -61,6 +63,8 @@ print("="*50)
 
 # 6. Extract and display Feature Importance (for report analysis)
 print("\nTop 5 Most Important Features (Random Forest):")
+# Note: Feature importance indicates how much a feature contributes to the model's predictions,
+# but it does NOT imply a direct causal relationship with house prices.
 importances = rf_model.feature_importances_
 indices = np.argsort(importances)[::-1]
 
